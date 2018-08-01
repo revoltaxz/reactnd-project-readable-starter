@@ -7,9 +7,10 @@ import { createStore, applyMiddleware } from 'redux';
 import  rootReducer  from './reducers'
 import thunk from 'redux-thunk';
 import multi from 'redux-multi'
+import logger from 'redux-logger'
 
 
-const middleware = applyMiddleware(multi, thunk)
+const middleware = applyMiddleware(multi, thunk, logger)
 const store = createStore(rootReducer, middleware)
 
 ReactDOM.render(

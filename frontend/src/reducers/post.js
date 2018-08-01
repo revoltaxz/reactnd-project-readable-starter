@@ -5,7 +5,10 @@ const post = (state = {}, action) => {
     case 'EDIT_POST':
     case 'DELETE_POST':
     case 'VOTE_POST':
-      return action.post
+      return {
+        ...state,
+        post: action.post
+      }
     default:
       return state
   }

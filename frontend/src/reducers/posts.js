@@ -1,7 +1,7 @@
-const posts = (state = {}, action) => {
+const posts = (state = [], action) => {
   switch(action.type) {
     case 'GET_POSTS':
-     return action.posts
+     return [...action.posts]
     default:
       return state
   }

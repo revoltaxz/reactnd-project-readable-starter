@@ -20,3 +20,26 @@ function getPosts (posts) {
     posts
   }
 }
+
+
+
+export const addPost = ( post ) => {
+  return dispatch => {
+    axios({
+      method: 'POST',
+      url: `${URL}/posts`,
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Whatever'},
+      data: JSON.stringify(post)
+    }).then( resp => {
+      dispatch(newPost(resp.data))
+    }).then(dispatch(getAllPosts()))
+  }
+}
+
+function newPost (post) {
+  return {
+    type: 'ADD_POST',
+    post
+  }
+}
+
