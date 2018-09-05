@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getAllCategories } from '../../actions/categories';
-import { getAllPosts } from '../../actions/posts';
 import { bindActionCreators } from 'redux'
 
 class Home extends React.Component {
@@ -10,10 +9,8 @@ class Home extends React.Component {
     this.props.getAllCategories()
   }
 
-
   render() {
-    const { categories } = this.props
-
+    const { categories } = this.props;
     return (
       <div>
         <header>
@@ -27,6 +24,7 @@ class Home extends React.Component {
     )
   }
 }
+
 
 const mapStateToProps = ({ categories }) => ({ categories })
 const mapDispatchToProps =  dispatch  => bindActionCreators({ getAllCategories }, dispatch)

@@ -32,7 +32,9 @@ export const addPost = ( post ) => {
       data: JSON.stringify(post)
     }).then( resp => {
       dispatch(newPost(resp.data))
-    }).then(dispatch(getAllPosts()))
+    }).then(resp => {
+      dispatch(getAllPosts())
+    })
   }
 }
 
@@ -43,3 +45,23 @@ function newPost (post) {
   }
 }
 
+export const deletePost = (post) => {
+  return dispatch => {
+    axios({
+        method: 'delete',
+        url: `${URL}/posts/${post.id}`,
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Whatever'},
+    }).then(resp => {
+      dispatch(delPost(resp.data))
+    }).then(resp => {
+      dispatch(getAllPosts())
+    })
+  }
+}
+
+function delPost (post) {
+  return {
+    type: 'DELETE_POST',
+    post
+  }
+}

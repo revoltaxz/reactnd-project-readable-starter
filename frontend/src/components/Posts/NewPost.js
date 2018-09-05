@@ -36,13 +36,10 @@ class NewPost extends React.Component {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-
           <input type="text" name="title" onChange={this.handleChange} value={title} />
           <textarea type="text" name="body" onChange={this.handleChange} value={body} />
           <input type="text" name="author" onChange={this.handleChange} value={author} />
           <input type="text" name="category" onChange={this.handleChange} value={category} />
-
-
           <button>Enviar</button>
         </form>
       </div>
@@ -51,6 +48,5 @@ class NewPost extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({ addPost }, dispatch)
-
 
 export default connect(null, mapDispatchToProps)(NewPost)
