@@ -4,6 +4,9 @@ import { connect } from 'react-redux'
 import { getAllPosts, deletePost } from '../../actions/posts';
 import { bindActionCreators } from 'redux'
 import {Link} from 'react-router-dom'
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add'
+import { withStyles } from '@material-ui/core/styles'
 
 
 class Posts extends React.Component {
@@ -13,7 +16,7 @@ class Posts extends React.Component {
   }
 
   render () {
-    const { posts } = this.props
+    const { posts, classes } = this.props
     return (
       <div>
         {posts.map((post,index) => (
@@ -28,18 +31,22 @@ class Posts extends React.Component {
             <button onClick={() => this.props.deletePost(post)}>Deletar</button>
           </div>
         ))}
-        <Link to="/posts/new">
-          <button>
-            +
-          </button>
-        </Link>
       </div>
     )
   }
 }
 
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+  },
+  extendedIcon: {
+    marginRight: theme.spacing.unit,
+  },
+});
+
 const mapStateToProps = state => ({ posts: state.posts })
 const mapDispatchToProps = dispatch => bindActionCreators({ getAllPosts, deletePost }, dispatch)
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Posts)
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Posts))
