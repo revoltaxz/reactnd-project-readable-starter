@@ -3,6 +3,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { addPost } from '../../actions/posts'
 import Uuid from 'uuid-lib'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
 
 class NewPost extends React.Component {
   state = {
@@ -33,14 +36,27 @@ class NewPost extends React.Component {
 
   render () {
     const { title, body, author, category } = this.state
+    console.log(title)
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <input type="text" name="title" onChange={this.handleChange} value={title} />
-          <textarea type="text" name="body" onChange={this.handleChange} value={body} />
-          <input type="text" name="author" onChange={this.handleChange} value={author} />
-          <input type="text" name="category" onChange={this.handleChange} value={category} />
-          <button>Enviar</button>
+          <Grid container spacing={16}>
+            <Grid item xs={12}>
+              <TextField name="title" label="Title" value={title} onChange={this.handleChange}/>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField name="author" label="Author" value={author} onChange={this.handleChange}/>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField name="category" label="Category" value={category} onChange={this.handleChange}/>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField name="body" label="Body" multiline rowsMax="3" value={body} onChange={this.handleChange}/>
+            </Grid>
+            <Grid item xs={12}>
+              <Button type="submit" variant="contained" color="primary">Create</Button>
+            </Grid>
+          </Grid>
         </form>
       </div>
     )

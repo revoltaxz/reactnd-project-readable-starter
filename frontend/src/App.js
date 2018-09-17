@@ -4,7 +4,7 @@ import './App.css';
 import Posts from './components/Posts/Posts'
 import NewPost from './components/Posts/NewPost'
 import Header from './components/Header/header'
-import { BrowserRouter as Router, Route  } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch  } from 'react-router-dom'
 
 class App extends Component {
   render() {
@@ -12,8 +12,10 @@ class App extends Component {
         <Router>
           <div className="App">
             <Header>
-              <Route exact path="/" component={Posts} />
-              <Route exact path="/posts/new" component={NewPost} />
+              <Switch>
+                <Route exact path="/" component={Posts} />
+                <Route exact path="/new" component={NewPost} />
+              </Switch>
             </Header>
           </div>
         </Router>

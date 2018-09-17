@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import {history} from '../utils/history'
 const URL = 'http://localhost:3001'
 
 export const getAllPosts = () => {
@@ -32,6 +32,7 @@ export const addPost = ( post ) => {
       data: JSON.stringify(post)
     }).then( resp => {
       dispatch(newPost(resp.data))
+      history.push('/')
     }).then(resp => {
       dispatch(getAllPosts())
     })
