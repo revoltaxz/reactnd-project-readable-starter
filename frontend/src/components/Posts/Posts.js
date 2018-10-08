@@ -4,10 +4,14 @@ import { connect } from 'react-redux'
 import { getAllPosts, deletePost } from '../../actions/posts';
 import { bindActionCreators } from 'redux'
 import {Link} from 'react-router-dom'
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add'
+import DeleteIcon from '@material-ui/icons/Delete'
+import IconButton from '@material-ui/core/IconButton'
 import { withStyles } from '@material-ui/core/styles'
-
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import InfoLabel from '../InfoLabel/InfoLabel'
 
 class Posts extends React.Component {
 
@@ -18,31 +22,51 @@ class Posts extends React.Component {
   render () {
     const { posts, classes } = this.props
     return (
-      <div>
-        {posts.map((post,index) => (
-          <div key={index}>
-            <ul>
-              <li>{post.title}</li>
-              <li>{post.author}</li>
-              <li>{post.category}</li>
-              <li>{post.body}</li>
-              <li>{post.voteScore}</li>
-            </ul>
-            <button onClick={() => this.props.deletePost(post)}>Deletar</button>
-          </div>
-        ))}
-      </div>
+      <React.Fragment>
+        <Grid container spacing={16} className={classes.gridContent}>
+          {posts.map((post,index) => (
+            <Grid item xs={6} key={index}>
+              <Card>
+                <CardContent>
+                  <Grid container>
+                    <Grid item xs={11} style={{ marginTop: 12}}>
+                      <Typography variant="title">{post.title}</Typography>
+                      <Typography variant="caption">{post.author}</Typography>
+                    </Grid>
+                    <Grid item xs={1}>
+                      <IconButton onClick={() => this.props.deletePost(post)}><DeleteIcon /></IconButton>
+                    </Grid>
+                  </Grid>
+                </CardContent>
+                <CardContent>
+                  <Grid container>
+                    <Grid item xs={6}>
+                      <InfoLabel label="Category" data={post.category} />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <InfoLabel label="Vote Score" data={post.voteScore} />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <InfoLabel label="Body" data={post.body} />
+                    </Grid>
+                  </Grid>
+                </CardContent>
+
+              </Card>
+
+            </Grid>
+          ))}
+        </Grid>
+      </React.Fragment>
     )
   }
 }
 
 const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
-  },
-  extendedIcon: {
-    marginRight: theme.spacing.unit,
-  },
+
+  gridContent: {
+    padding: 16
+  }
 });
 
 const mapStateToProps = state => ({ posts: state.posts })

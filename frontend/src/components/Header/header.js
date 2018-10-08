@@ -19,12 +19,13 @@ const styles = theme => ({
     zIndex: theme.zIndex.drawer + 1,
   },
   drawerPaper: {
-    position: 'fixed',
+    position: 'absolute',
     width: drawerWidth,
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 16,
+    paddingTop: 64,
+    paddingLeft: 241,
     minWidth: 0,
   },
   toolbar: theme.mixins.toolbar,
@@ -47,7 +48,7 @@ class Header extends React.Component {
             <Grid container spacing={16}>
               <Grid item xs={11}></Grid>
               <Grid item xs={1}>
-                <Link to='/posts/new'>
+                <Link to='/new'>
                   <Tooltip title='Add Post'>
                     <IconButton className={classes.button} aria-label="Delete">
                       <AddIcon />
