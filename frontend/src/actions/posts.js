@@ -32,9 +32,9 @@ export const addPost = ( post ) => {
       data: JSON.stringify(post)
     }).then( resp => {
       dispatch(newPost(resp.data))
-      history.push('/')
     }).then(resp => {
       dispatch(getAllPosts())
+      history.push('/')
     })
   }
 }
@@ -64,5 +64,27 @@ function delPost (post) {
   return {
     type: 'DELETE_POST',
     post
+  }
+}
+
+export const vote = ( post, type ) => {
+  return dispatch => {
+    axios({
+      method: 'POST',
+      url: `${URL}/posts/${post.id}`,
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Whatever'},
+      data: JSON.stringify({option: type})
+    }).then( resp => {
+      dispatch(voteFunc(resp.data))
+    }).then( resp => {
+      dispatch(getAllPosts())
+    })
+  }
+}
+
+function voteFunc (vote) {
+  return {
+    type: 'VOTE_UP',
+    vote
   }
 }

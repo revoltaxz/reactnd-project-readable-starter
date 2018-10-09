@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { connect } from 'react-redux'
-import { getAllPosts, deletePost } from '../../actions/posts';
+import { getAllPosts, deletePost, vote } from '../../actions/posts';
 import { bindActionCreators } from 'redux'
 import {Link} from 'react-router-dom'
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -12,6 +12,8 @@ import CardContent from '@material-ui/core/CardContent'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import InfoLabel from '../InfoLabel/InfoLabel'
+import Like from '@material-ui/icons/ThumbUp'
+import Deslike from '@material-ui/icons/ThumbDown'
 
 class Posts extends React.Component {
 
@@ -20,7 +22,7 @@ class Posts extends React.Component {
   }
 
   render () {
-    const { posts, classes } = this.props
+    const { posts, classes, vote } = this.props
     return (
       <React.Fragment>
         <Grid container spacing={16} className={classes.gridContent}>
@@ -51,9 +53,11 @@ class Posts extends React.Component {
                     </Grid>
                   </Grid>
                 </CardContent>
-
+                <CardContent>
+                  <IconButton style={{ float: 'right' }} onClick={() => vote(post, 'upVote')}><Like /></IconButton>
+                  <IconButton style={{ float: 'right' }} onClick={() => vote(post, 'downVote')}><Deslike /></IconButton>
+                </CardContent>
               </Card>
-
             </Grid>
           ))}
         </Grid>
@@ -70,7 +74,7 @@ const styles = theme => ({
 });
 
 const mapStateToProps = state => ({ posts: state.posts })
-const mapDispatchToProps = dispatch => bindActionCreators({ getAllPosts, deletePost }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ getAllPosts, deletePost, vote }, dispatch)
 
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Posts))
