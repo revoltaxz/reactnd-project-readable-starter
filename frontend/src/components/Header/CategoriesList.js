@@ -4,6 +4,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { Link } from 'react-router-dom'
 import ReportIcon from '@material-ui/icons/Report';
 import Typography from '@material-ui/core/Typography'
 import {bindActionCreators} from "redux";
@@ -22,13 +23,23 @@ class CategoriesList extends React.Component {
     return (
       <div>
         <Typography variant='subheading' style={{ textAlign: 'left', paddingLeft: 24, paddingBottom: 16}}>Categories</Typography>
-        {categories.map((cat, index)=> (
-          <ListItem button key={index}>
+        <Link to="/">
+          <ListItem button >
             <ListItemIcon>
               <MailIcon />
             </ListItemIcon>
-            <ListItemText primary={cat.name} />
+            <ListItemText primary="All"/>
           </ListItem>
+        </Link>
+        {categories.map((cat, index)=> (
+          <Link to={`/${cat.name}`} key={index}>
+            <ListItem button >
+              <ListItemIcon>
+                <MailIcon />
+              </ListItemIcon>
+              <ListItemText primary={cat.name} />
+            </ListItem>
+          </Link>
         ))}
       </div>
     )

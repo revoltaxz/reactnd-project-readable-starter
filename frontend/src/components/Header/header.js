@@ -6,11 +6,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import CategoriesList from './CategoriesList';
-import IconButton from '@material-ui/core/IconButton';
-import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid'
-import Tooltip from '@material-ui/core/Tooltip';
-import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import NewPost from "../Posts/NewPost";
+import { addPost } from "../../actions/posts";
 
 const drawerWidth = 240;
 
@@ -36,6 +36,11 @@ const styles = theme => ({
 });
 
 class Header extends React.Component {
+
+  submit = data => {
+    this.props.addPost(data)
+  }
+
   render() {
     const { classes} = this.props
     return (
@@ -48,13 +53,7 @@ class Header extends React.Component {
             <Grid container spacing={16}>
               <Grid item xs={11}></Grid>
               <Grid item xs={1}>
-                <Link to='/new'>
-                  <Tooltip title='Add Post'>
-                    <IconButton className={classes.button} aria-label="Delete">
-                      <AddIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Link>
+                <NewPost onSubmit={this.submit} />
               </Grid>
             </Grid>
           </Toolbar>
@@ -78,4 +77,6 @@ class Header extends React.Component {
   }
 }
 
-export default withStyles(styles)(Header);
+const mapDispatchToProps = dispatch => bindActionCreators({ addPost }, dispatch )
+
+export default withStyles(styles)(connect(null, mapDispatchToProps)(Header));
