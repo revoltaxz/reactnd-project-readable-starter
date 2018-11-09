@@ -10,12 +10,19 @@ import Typography from '@material-ui/core/Typography'
 import {bindActionCreators} from "redux";
 import {getAllCategories} from "../../actions/categories";
 import { connect } from 'react-redux'
+import { history } from "../../utils/history";
+import { getPostByCategory } from "../../actions/posts";
 
 
 class CategoriesList extends React.Component {
 
   componentDidMount() {
     this.props.getAllCategories()
+  }
+
+  goTo = category => {
+    this.props.getPostByCategory(category)
+    history.push(`/category/${category}`)
   }
 
   render () {
@@ -32,14 +39,12 @@ class CategoriesList extends React.Component {
           </ListItem>
         </Link>
         {categories.map((cat, index)=> (
-          <Link to={`/${cat.name}`} key={index}>
-            <ListItem button >
-              <ListItemIcon>
-                <MailIcon />
-              </ListItemIcon>
-              <ListItemText primary={cat.name} />
-            </ListItem>
-          </Link>
+          <ListItem key={index} button onClick={() => this.goTo(cat.name)}>
+            <ListItemIcon>
+              <MailIcon />
+            </ListItemIcon>
+            <ListItemText primary={cat.name} />
+          </ListItem>
         ))}
       </div>
     )
@@ -47,6 +52,6 @@ class CategoriesList extends React.Component {
 };
 
 const mapStateToProps = state => ({ categories: state.categories })
-const mapDispatchToProps =  dispatch  => bindActionCreators({ getAllCategories }, dispatch)
+const mapDispatchToProps =  dispatch  => bindActionCreators({ getAllCategories, getPostByCategory }, dispatch)
 
 export default connect(mapStateToProps,mapDispatchToProps)(CategoriesList)

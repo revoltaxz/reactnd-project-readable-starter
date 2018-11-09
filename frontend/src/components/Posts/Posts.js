@@ -15,33 +15,37 @@ import Like from '@material-ui/icons/ThumbUp'
 import Deslike from '@material-ui/icons/ThumbDown'
 import { withRouter } from 'react-router-dom'
 import EditPost from "./EditPost";
+import { history } from "../../utils/history";
 
 class Posts extends React.Component {
 
   componentDidMount() {
-    if (this.props.posts.length > 0) {
-      this.props.deletePosts()
+    const { getAllPosts, getPostByCategory, match } = this.props
+    if (!match.params.category) {
+      getAllPosts()
     }
-    this.props.getAllPosts()
+    else {
+      const filterPosts = this.props.match.params.hasOwnProperty('category') ? this.props.match.params.category : ''
+      getPostByCategory(filterPosts)
+    }
   }
 
   edit = data => {
     this.props.editPost(data)
-    console.log(data)
   }
 
   render () {
-    const { posts, classes, vote, match } = this.props
-    const filterPosts = posts.filter(post => {
-      if (match.params.category) {
-        return post.category === match.params.category
-      }
-      return post.category !== match.params.category
-    })
+    const { posts, classes, vote } = this.props
+    // const filterPosts = posts.filter(post => {
+    //   if (match.params.category) {
+    //     return post.category === match.params.category
+    //   }
+    //   return post.category !== match.params.category
+    // })
     return (
       <React.Fragment>
         <Grid container spacing={16} className={classes.gridContent}>
-          {filterPosts.map((post,index) => (
+          {posts.map((post,index) => (
             <Grid item xs={6} key={index}>
               <Card>
                 <CardContent>
@@ -92,4 +96,4 @@ const mapStateToProps = state => ({ posts: state.posts.sort((a,b) =>  b.voteScor
 const mapDispatchToProps = dispatch => bindActionCreators({ getAllPosts, deletePost, vote, getPostByCategory, deletePosts, editPost }, dispatch)
 
 
-export default withRouter(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Posts)))
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Posts))
