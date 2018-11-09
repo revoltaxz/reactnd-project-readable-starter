@@ -109,3 +109,16 @@ export const editPost = post => {
     })
   }
 }
+
+
+export const postDetail = (id) => {
+  return (dispatch ) => {
+    axios({
+      method: 'get',
+      url: `${URL}/posts/${id}`,
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Whatever'},
+    }).then( resp => {
+      dispatch({ type: 'GET_POST_DETAIL', payload: resp.data })
+    })
+  }
+}

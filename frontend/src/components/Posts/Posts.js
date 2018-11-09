@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { getAllPosts, deletePost, vote, getPostByCategory, editPost } from '../../actions/posts';
+import { getAllPosts, deletePost, vote, getPostByCategory, editPost, postDetail } from '../../actions/posts';
 import { bindActionCreators } from 'redux'
 import DeleteIcon from '@material-ui/icons/Delete'
 import IconButton from '@material-ui/core/IconButton'
@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography'
 import Up from '@material-ui/icons/KeyboardArrowUp'
 import Down from '@material-ui/icons/KeyboardArrowDown'
 import EditPost from "./EditPost";
+import {history} from "../../utils/history";
 
 class Posts extends React.Component {
 
@@ -32,6 +33,10 @@ class Posts extends React.Component {
     this.props.editPost(data)
   }
 
+  goTo = (category, id) => {
+    history.push(`/${category}/${id}`)
+  }
+
   render () {
     const { posts, classes, vote } = this.props
     return (
@@ -45,12 +50,14 @@ class Posts extends React.Component {
                     <Grid item xs={1}>
                       <Grid container direction="column" alignItems="flex-start">
                         <Button onClick={() => vote(post, 'upVote' )}><Up /></Button>
-                        <span style={{ paddingLeft: 25.5 }}>{post.voteScore}</span>
+                        <Typography variant="subtitle2" style={{ paddingLeft: 28 }}>{post.voteScore}</Typography>
                         <Button onClick={() => vote(post, 'downVote' )}><Down /></Button>
                       </Grid>
                     </Grid>
                     <Grid item xs={9} style={{ marginTop: 12}}>
-                      <Typography variant="subtitle1">{post.title} | {post.category} </Typography>
+                      <Typography variant="subtitle1" onClick={() => this.goTo(post.category, post.id)}>
+                        {post.title} | {post.category}
+                      </Typography>
                       <Typography variant="caption">submitted by {post.author} | {post.commentCount} comments</Typography>
                     </Grid>
                     <Grid item xs={2}>
@@ -75,7 +82,7 @@ const styles  = {
 };
 
 const mapStateToProps = state => ({ posts: state.posts.postList })
-const mapDispatchToProps = dispatch => bindActionCreators({ getAllPosts, deletePost, vote, getPostByCategory, editPost }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ getAllPosts, deletePost, vote, getPostByCategory, editPost, postDetail }, dispatch)
 
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Posts))

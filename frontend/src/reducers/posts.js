@@ -1,7 +1,8 @@
 const initialState = {
   postList: [],
   filterBy: '',
-  sortBy: 'vote_asc'
+  sortBy: 'vote_asc',
+  postInfo: {}
 }
 
 const posts = (state = initialState , action) => {
@@ -18,8 +19,8 @@ const posts = (state = initialState , action) => {
       return { ...state, postList: state.postList.map(p => p.id === action.payload.id ? action.payload : p)}
     case 'GET_POSTS_BY_CATEGORY':
       return { ...state, postList: action.payload, filterBy: action.category }
-    case 'DELETE_POSTS':
-      return []
+    case 'GET_POST_DETAIL':
+      return { ...state, postInfo: action.payload }
     default:
       return state
   }
