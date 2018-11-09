@@ -1,5 +1,4 @@
 import axios from 'axios'
-import {history} from '../utils/history'
 const URL = 'http://localhost:3001'
 
 export const getAllPosts = () => {
@@ -9,85 +8,73 @@ export const getAllPosts = () => {
       url: `${URL}/posts`,
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Whatever'}
     }).then( resp => {
-      dispatch(getPosts(resp.data))
+      dispatch({ type: 'GET_ALL_POSTS', payload: resp.data })
     })
   }
 }
 
-function getPosts (posts) {
-  return {
-    type: 'GET_POSTS',
-    posts
-  }
-}
-
-
-
 export const addPost = ( post ) => {
-  return dispatch => {
+  return (dispatch, getState ) => {
+    const { posts } = getState()
     axios({
       method: 'POST',
       url: `${URL}/posts`,
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Whatever'},
       data: JSON.stringify(post)
     }).then( resp => {
-      dispatch(newPost(resp.data))
+      dispatch({ type: 'ADD_POST', payload: resp.data })
     }).then(resp => {
-      dispatch(getAllPosts())
-      history.push('/')
+      if ( posts.filterBy ===  '') {
+        dispatch(getAllPosts())
+      }
+      else {
+        dispatch(getPostByCategory(posts.filterBy))
+      }
     })
   }
 }
 
-function newPost (post) {
-  return {
-    type: 'ADD_POST',
-    post
-  }
-}
-
 export const deletePost = (post) => {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const { posts } = getState()
     axios({
         method: 'delete',
         url: `${URL}/posts/${post.id}`,
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Whatever'},
     }).then(resp => {
-      dispatch(delPost(resp.data))
+      dispatch({ type: 'DELETE_POST', payload: resp.data })
     }).then(resp => {
-      dispatch(getAllPosts())
+      if ( posts.filterBy ===  '') {
+        dispatch(getAllPosts())
+      }
+      else {
+        dispatch(getPostByCategory(posts.filterBy))
+      }
     })
   }
 }
 
-function delPost (post) {
-  return {
-    type: 'DELETE_POST',
-    post
-  }
-}
-
 export const vote = ( post, type ) => {
-  return dispatch => {
+  return (dispatch, getState ) => {
+    const { posts } = getState()
     axios({
       method: 'POST',
       url: `${URL}/posts/${post.id}`,
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Whatever'},
       data: JSON.stringify({option: type})
     }).then( resp => {
-      dispatch(voteFunc(resp.data))
+      dispatch({ type: 'VOTE_UP', payload: resp.data })
     }).then( resp => {
-      dispatch(getAllPosts())
+      if ( posts.filterBy ===  '') {
+        dispatch(getAllPosts())
+      }
+      else {
+        dispatch(getPostByCategory(posts.filterBy))
+      }
     })
   }
 }
 
-function voteFunc (vote) {
-  return {
-    type: 'VOTE_UP',
-    vote
-  }
-}
 
 export const getPostByCategory = (category) => {
   return dispatch => {
@@ -96,38 +83,29 @@ export const getPostByCategory = (category) => {
       url: `${URL}/${category}/posts`,
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Whatever'},
     }).then( resp => {
-      dispatch(byCategory(resp.data))
+      dispatch({ type: 'GET_POSTS_BY_CATEGORY', payload: resp.data, category })
     })
   }
 }
 
-function byCategory (data) {
-  return {
-    type: 'GET_POSTS_BY_CATEGORY',
-    data
-  }
-}
-
-export const deletePosts = () => ({
-  type: 'DELETE_POSTS'
-})
 
 export const editPost = post => {
-  return dispatch => {
+  return (dispatch, getState ) => {
+    const { posts } = getState()
     axios({
       method: 'PUT',
       url: `${URL}/posts/${post.id}`,
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Whatever'},
       data: JSON.stringify( post )
     }).then( resp => {
-      dispatch(edit(resp.data))
-    }).then(dispatch(getAllPosts()))
-  }
-}
-
-function edit (payload) {
-  return {
-    type: 'EDIT_POST',
-    payload
+      dispatch({ type: 'EDIT_POST', payload: resp.data })
+    }).then( resp => {
+      if ( posts.filterBy ===  '') {
+        dispatch(getAllPosts())
+      }
+      else {
+        dispatch(getPostByCategory(posts.filterBy))
+      }
+    })
   }
 }

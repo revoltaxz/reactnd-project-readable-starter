@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { connect } from 'react-redux'
-import { getAllPosts, deletePost, deletePosts, vote, getPostByCategory, editPost } from '../../actions/posts';
+import { getAllPosts, deletePost, vote, getPostByCategory, editPost } from '../../actions/posts';
 import { bindActionCreators } from 'redux'
 import DeleteIcon from '@material-ui/icons/Delete'
 import IconButton from '@material-ui/core/IconButton'
@@ -13,9 +13,7 @@ import Typography from '@material-ui/core/Typography'
 import InfoLabel from '../InfoLabel/InfoLabel'
 import Like from '@material-ui/icons/ThumbUp'
 import Deslike from '@material-ui/icons/ThumbDown'
-import { withRouter } from 'react-router-dom'
 import EditPost from "./EditPost";
-import { history } from "../../utils/history";
 
 class Posts extends React.Component {
 
@@ -26,7 +24,8 @@ class Posts extends React.Component {
     }
     else {
       const filterPosts = this.props.match.params.hasOwnProperty('category') ? this.props.match.params.category : ''
-      getPostByCategory(filterPosts)
+      if(filterPosts === '' ||  filterPosts === 'all' ) getAllPosts()
+      else getPostByCategory(filterPosts)
     }
   }
 
@@ -36,17 +35,11 @@ class Posts extends React.Component {
 
   render () {
     const { posts, classes, vote } = this.props
-    // const filterPosts = posts.filter(post => {
-    //   if (match.params.category) {
-    //     return post.category === match.params.category
-    //   }
-    //   return post.category !== match.params.category
-    // })
     return (
       <React.Fragment>
         <Grid container spacing={16} className={classes.gridContent}>
           {posts.map((post,index) => (
-            <Grid item xs={6} key={index}>
+            <Grid item xs={12} key={index}>
               <Card>
                 <CardContent>
                   <Grid container>
@@ -74,8 +67,8 @@ class Posts extends React.Component {
                   </Grid>
                 </CardContent>
                 <CardContent>
-                  <IconButton style={{ float: 'right' }} onClick={() => vote(post, 'upVote')}><Like /></IconButton>
-                  <IconButton style={{ float: 'right' }} onClick={() => vote(post, 'downVote')}><Deslike /></IconButton>
+                  <IconButton style={{ float: 'right' }} onClick={() => vote(post, 'upVote' )}><Like /></IconButton>
+                  <IconButton style={{ float: 'right' }} onClick={() => vote(post, 'downVote' )}><Deslike /></IconButton>
                 </CardContent>
               </Card>
             </Grid>
@@ -92,8 +85,8 @@ const styles  = {
   }
 };
 
-const mapStateToProps = state => ({ posts: state.posts.sort((a,b) =>  b.voteScore - a.voteScore)  })
-const mapDispatchToProps = dispatch => bindActionCreators({ getAllPosts, deletePost, vote, getPostByCategory, deletePosts, editPost }, dispatch)
+const mapStateToProps = state => ({ posts: state.posts.postList })
+const mapDispatchToProps = dispatch => bindActionCreators({ getAllPosts, deletePost, vote, getPostByCategory, editPost }, dispatch)
 
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Posts))

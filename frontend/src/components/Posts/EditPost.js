@@ -24,7 +24,6 @@ class EditPost extends React.Component {
 
   componentDidMount() {
     this.handleInitialize()
-    this.props.getAllPosts()
   }
 
   handleClickOpen = () => {
@@ -37,6 +36,7 @@ class EditPost extends React.Component {
 
 
   handleInitialize () {
+    console.log(this.props)
     const initData = {
       "id": this.props.id,
       "title": this.props.title,
