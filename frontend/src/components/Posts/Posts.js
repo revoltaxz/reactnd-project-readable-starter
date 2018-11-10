@@ -29,10 +29,6 @@ class Posts extends React.Component {
     }
   }
 
-  edit = data => {
-    this.props.editPost(data)
-  }
-
   goTo = (category, id) => {
     history.push(`/${category}/${id}`)
   }
@@ -42,8 +38,8 @@ class Posts extends React.Component {
     return (
       <React.Fragment>
         <Grid container spacing={16} className={classes.gridContent}>
-          {posts.map((post,index) => (
-            <Grid item xs={12} key={index}>
+          {posts.map((post) => (
+            <Grid item xs={12} key={post.id}>
               <Card>
                 <CardContent>
                   <Grid container>
@@ -62,7 +58,11 @@ class Posts extends React.Component {
                     </Grid>
                     <Grid item xs={2}>
                       <IconButton style={{float: 'right'}} onClick={() => this.props.deletePost(post)}><DeleteIcon /></IconButton>
-                      <EditPost {...post} onSubmit={this.edit} form={`form-edit-${post.id}`}/>
+                      <EditPost values={{
+                        id: post.id,
+                        title: post.title,
+                        body: post.body
+                      }}/>
                     </Grid>
                   </Grid>
                 </CardContent>
@@ -82,7 +82,7 @@ const styles  = {
 };
 
 const mapStateToProps = state => ({ posts: state.posts.postList })
-const mapDispatchToProps = dispatch => bindActionCreators({ getAllPosts, deletePost, vote, getPostByCategory, editPost, postDetail }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ getAllPosts, deletePost, vote, getPostByCategory, postDetail }, dispatch)
 
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Posts))

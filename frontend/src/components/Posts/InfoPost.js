@@ -20,14 +20,12 @@ class InfoPost extends React.Component {
     postDetail(match.params.post_id)
   }
 
-  edit = data => {
-    this.props.editPost(data)
-  }
 
   render() {
     const { postInfos, vote, deletePost } = this.props
     return (
       <React.Fragment>
+        {postInfos && (
           <Grid container style={{ padding: 16 }}>
             <Grid item xs={12}>
               <Grid container>
@@ -46,7 +44,11 @@ class InfoPost extends React.Component {
                 </Grid>
                 <Grid item xs={2}>
                   <IconButton style={{float: 'right'}} onClick={() => deletePost(postInfos)}><DeleteIcon /></IconButton>
-                  <EditPost onSubmit={this.edit} form={`edit-post-${postInfos.id}`} {...postInfos} />
+                  <EditPost values={{
+                    id: postInfos.id,
+                    title: postInfos.title,
+                    body: postInfos.body
+                  }} />
                 </Grid>
               </Grid>
             </Grid>
@@ -55,6 +57,8 @@ class InfoPost extends React.Component {
             <Typography variant="h6" style={{ paddingLeft: 16 }}>Comments ({postInfos.commentCount})</Typography>
             <Comments />
           </Grid>
+
+        )}
 
       </React.Fragment>
     )

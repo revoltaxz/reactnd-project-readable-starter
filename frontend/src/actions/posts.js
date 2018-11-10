@@ -99,6 +99,7 @@ export const getPostByCategory = (category) => {
 
 
 export const editPost = post => {
+  console.log(post)
   return (dispatch, getState ) => {
     const { posts } = getState()
     axios({

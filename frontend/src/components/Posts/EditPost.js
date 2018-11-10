@@ -10,24 +10,43 @@ import Grid from "@material-ui/core/Grid/Grid";
 import { withStyles } from '@material-ui/core/styles'
 import DialogActions from "@material-ui/core/DialogActions/DialogActions";
 import Button from "@material-ui/core/Button/Button";
-import { Field, reduxForm} from "redux-form";
-import { TextField } from 'redux-form-material-ui'
+import { editPost } from "../../actions/posts";
+import { connect } from 'react-redux'
+import TextField from '@material-ui/core/TextField'
 
 
 class EditPost extends React.Component {
   state = {
-    open: false
+    open: false,
+    id: '',
+    title: '',
+    body: ''
+
   }
 
   componentDidMount() {
     console.log(this.props)
-    // if (this.props.id ) {
-      // this.handleInitialize()
-    // }
+    this.setState({
+      ...this.props.values
+    });
+  }
+
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault()
+    const { form } = this.state
+    const { dispatch } = this.props
+    dispatch(editPost(form))
+    this.setState({ open: false })
   }
 
   handleClickOpen = () => {
-    this.setState({ open: true });
+    this.setState({ open: true })
   };
 
   handleClose = () => {
@@ -35,58 +54,80 @@ class EditPost extends React.Component {
   };
 
 
-  handleInitialize () {
-    const initData = {
-      "id": this.props.id,
-      "title": this.props.title,
-      "body": this.props.body,
-    }
-    this.props.initialize(initData)
-  }
-
 
   render () {
-    const { handleSubmit, pristine, reset, submitting, classes } = this.props
+    const { classes } = this.props
+    const { title, body, open } = this.state
     return (
-      <React.Fragment>
+      <div>
         <Tooltip title='Edit Post'>
-          <IconButton style={{ float: 'right'}} onClick={this.handleClickOpen}>
+          <IconButton className={classes.button}
+                      onClick={this.handleClickOpen}
+          >
             <EditIcon/>
           </IconButton>
         </Tooltip>
-        <Dialog open={this.state.open} fullWidth onClose={this.handleClose}  aria-labelledby="form-dialog-title">
-          <DialogTitle className={classes.dialogTitle} id="new-post">Edit Post</DialogTitle>
+        <Dialog open={open}
+                fullWidth
+                onClose={this.handleClose}
+                aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle className={classes.dialogTitle}
+                       id="edit-post"
+          >
+            Edit Post
+          </DialogTitle>
           <DialogContent>
             <DialogContentText className={classes.dialogText}>
               Insert data to Edit Post
             </DialogContentText>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={this.handleSubmit}>
               <Grid container spacing={16}>
                 <Grid item xs={12}>
-                  <Field name="title" className={classes.fields} variant='outlined' component={TextField} type="text" label='Title' />
+                  <TextField name="title"
+                             className={classes.fields}
+                             variant='outlined'
+                             value={title}
+                             id="title"
+                             type="text"
+                             label='Title'
+                             onChange={this.handleChange}
+                  />
                 </Grid>
                 <Grid item xs={12}>
-                  <Field name="body" className={classes.fields} component={TextField} variant='outlined' multiline rowsMax={4} label='Body' />
+                  <TextField name="body"
+                             className={classes.fields}
+                             value={body}
+                             id="body"
+                             type="text"
+                             variant='outlined'
+                             multiline
+                             rowsMax={4}
+                             label='Body'
+                             onChange={this.handleChange}
+                  />
                 </Grid>
               </Grid>
               <DialogActions>
-                <Button type="button" disabled={pristine || submitting} onClick={reset}>
-                  Limpar
+                <Button type="button" onClick={this.handleClose}>
+                  Cancel
                 </Button>
-                <Button onClick={this.handleClose} variant="contained" type="submit" disabled={pristine || submitting}>
-                  Enviar
+                <Button variant="contained" type="submit">
+                  Send
                 </Button>
               </DialogActions>
             </form>
           </DialogContent>
         </Dialog>
-
-      </React.Fragment>
+      </div>
     )
   }
 }
 
 const styles = {
+  button: {
+    float: 'right'
+  },
   fields: {
     width: '100%',
     marginBottom: 16
@@ -100,10 +141,4 @@ const styles = {
   }
 }
 
-
-EditPost = reduxForm({
-  form: "editPost",
-})(EditPost);
-
-
-export default withStyles(styles)(EditPost)
+export default withStyles(styles)(connect()(EditPost))
