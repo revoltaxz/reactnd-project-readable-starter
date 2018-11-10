@@ -1,6 +1,7 @@
 const initialState = {
   postList: [],
   filterBy: '',
+  onDetail: false,
   sortBy: 'vote_asc',
   postInfo: {}
 }
@@ -20,7 +21,7 @@ const posts = (state = initialState , action) => {
     case 'GET_POSTS_BY_CATEGORY':
       return { ...state, postList: action.payload, filterBy: action.category }
     case 'GET_POST_DETAIL':
-      return { ...state, postInfo: action.payload }
+      return { ...state, postInfo: action.payload, onDetail: action.onDetail }
     default:
       return state
   }

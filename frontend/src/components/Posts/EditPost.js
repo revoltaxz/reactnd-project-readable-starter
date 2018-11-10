@@ -1,7 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { getAllPosts } from '../../actions/posts'
 import Tooltip from "@material-ui/core/Tooltip/Tooltip";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
@@ -23,7 +20,10 @@ class EditPost extends React.Component {
   }
 
   componentDidMount() {
-    this.handleInitialize()
+    console.log(this.props)
+    // if (this.props.id ) {
+      // this.handleInitialize()
+    // }
   }
 
   handleClickOpen = () => {
@@ -36,7 +36,6 @@ class EditPost extends React.Component {
 
 
   handleInitialize () {
-    console.log(this.props)
     const initData = {
       "id": this.props.id,
       "title": this.props.title,
@@ -106,7 +105,5 @@ EditPost = reduxForm({
   form: "editPost",
 })(EditPost);
 
-const mapStateToProps = ({ post }) => ({ post })
-const mapDispatchToProps = dispatch => bindActionCreators({ getAllPosts }, dispatch)
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(EditPost))
+export default withStyles(styles)(EditPost)

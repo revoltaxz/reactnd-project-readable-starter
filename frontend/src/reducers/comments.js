@@ -1,7 +1,11 @@
-const comments = (state = [] , action) => {
+const initialState = {
+  commentsList: []
+}
+
+const comments = (state = initialState , action) => {
   switch(action.type) {
     case 'GET_COMMENTS':
-     return action.comments
+     return { ...state, commentsList: action.payload }
     default:
       return state
   }

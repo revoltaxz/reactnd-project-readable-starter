@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { history } from "../utils/history";
+
 const URL = 'http://localhost:3001'
 
 export const getAllPosts = () => {
@@ -46,6 +48,10 @@ export const deletePost = (post) => {
     }).then(resp => {
       if ( posts.filterBy ===  '') {
         dispatch(getAllPosts())
+        history.push('/')
+      }
+      if ( posts.onDetail === true ) {
+        dispatch(postDetail(post.id))
       }
       else {
         dispatch(getPostByCategory(posts.filterBy))
@@ -67,6 +73,9 @@ export const vote = ( post, type ) => {
     }).then( resp => {
       if ( posts.filterBy ===  '') {
         dispatch(getAllPosts())
+      }
+      if ( posts.onDetail === true ) {
+        dispatch(postDetail(post.id))
       }
       else {
         dispatch(getPostByCategory(posts.filterBy))
@@ -118,7 +127,7 @@ export const postDetail = (id) => {
       url: `${URL}/posts/${id}`,
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Whatever'},
     }).then( resp => {
-      dispatch({ type: 'GET_POST_DETAIL', payload: resp.data })
+      dispatch({ type: 'GET_POST_DETAIL', payload: resp.data, onDetail: true })
     })
   }
 }

@@ -11,18 +11,18 @@ import InfoPost from "./components/Posts/InfoPost";
 class App extends Component {
   render() {
     return (
+      <Header>
         <Router history={history}>
           <div className="App">
-            <Header>
-              <Switch>
-                <Route exact path="/" component={Posts} />
-                <Route exact path="/new" component={NewPost} />
-                <Route exact path="/:category" component={Posts} />
-                <Route exact path="/:category/:post_id" component={InfoPost} />
-              </Switch>
-            </Header>
+            <Switch>
+              <Route exact path="/" component={Posts} />
+              <Route exact path="/new" component={NewPost} />
+              <Route exact path="/:category" component={Posts} />
+              <Route exact path="/:category/:post_id" component={InfoPost} />
+            </Switch>
           </div>
         </Router>
+      </Header>
     );
   }
 }
