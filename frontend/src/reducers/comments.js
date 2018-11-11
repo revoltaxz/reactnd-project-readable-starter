@@ -14,6 +14,8 @@ const comments = (state = initialState , action) => {
         )}
     case 'DELETE_COMMENT':
       return  {...state, commentsList: state.commentsList.filter(c => c.id !== action.payload.id)}
+    case 'EDIT_COMMENT':
+      return { ...state, commentsList: state.commentsList.map(c => c.id === action.payload.id ? action.payload : c)}
     default:
       return state
   }

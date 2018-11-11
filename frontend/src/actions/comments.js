@@ -31,8 +31,8 @@ export const voteComment = (id_comment, id_post, type) => {
 export const deleteComment = (id_comment, id_post ) => {
   return dispatch => {
     axios({
-      method: 'DELETE',
       url: `${URL}/comments/${id_comment}`,
+      method: 'DELETE',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Whatever'},
     }).then( resp => {
       dispatch({ type: 'DELETE_COMMENT', payload: resp.data })
@@ -42,3 +42,17 @@ export const deleteComment = (id_comment, id_post ) => {
   }
 }
 
+export const editComment = (comment, id_post ) => {
+  return dispatch => {
+    axios({
+      method: 'PUT',
+      url: `${URL}/comments/${comment.id}`,
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Whatever'},
+      data: JSON.stringify( comment )
+    }).then(resp => {
+      dispatch({ type: 'EDIT_COMMENT', payload: resp.data })
+    }).then(resp => {
+      dispatch(getComments(id_post))
+    })
+  }
+}

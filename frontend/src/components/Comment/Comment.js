@@ -11,6 +11,7 @@ import { bindActionCreators } from 'redux'
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import moment from 'moment'
+import EditComment from "../EditComment/EditComment";
 
 class Comment extends React.Component {
   render () {
@@ -45,6 +46,12 @@ class Comment extends React.Component {
                 <IconButton style={{float: 'right'}} onClick={() => deleteComment(id, parentId)}>
                   <DeleteIcon />
                 </IconButton>
+                <EditComment values={{
+                  id: id,
+                  author: author,
+                  body: body,
+                  parentId: parentId
+                }}/>
               </Grid>
             </Grid>
           </Grid>
