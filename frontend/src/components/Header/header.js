@@ -9,7 +9,7 @@ import CategoriesList from './CategoriesList';
 import Grid from '@material-ui/core/Grid'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import NewPost from "../Posts/NewPost";
+import NewPost from "../NewPost/NewPost";
 import { addPost } from "../../actions/posts";
 
 const drawerWidth = 240;

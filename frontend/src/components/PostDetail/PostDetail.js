@@ -21,17 +21,17 @@ class PostDetail extends React.Component {
   }
 
   render () {
-    const { postData } = this.props
+    const { postData, vote, deletePost } = this.props
     return (
       <React.Fragment>
-        {postData && (
-          <Grid container style={{ padding: 16 }}>
+        {postData.hasOwnProperty(('id')) && (
+          <Grid container className="grid-content">
             <Grid item xs={12}>
               <Grid container>
                 <Grid item xs={1}>
                   <Grid container direction="column" alignItems="flex-start">
                     <Button onClick={() => vote(postData.id, 'upVote' )}><Up /></Button>
-                    <Typography variant="subtitle2" style={{ paddingLeft: 28 }}>{postData.voteScore}</Typography>
+                    <Typography variant="subtitle2" className="vote-score">{postData.voteScore}</Typography>
                     <Button onClick={() => vote(postData.id, 'downVote' )}><Down /></Button>
                   </Grid>
                 </Grid>

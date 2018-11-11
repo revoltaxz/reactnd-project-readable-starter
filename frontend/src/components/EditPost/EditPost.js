@@ -21,13 +21,18 @@ class EditPost extends React.Component {
     id: '',
     title: '',
     body: ''
-
   }
 
-  componentDidMount() {
-    this.setState({
-      ...this.props.values
-    });
+  static getDerivedStateFromProps(props, state) {
+    if (  props.values.id !== state.id ) {
+      return {
+        id: props.values.id,
+        title: props.values.title,
+        body: props.values.body
+      }
+    }else {
+      return { props }
+    }
   }
 
   handleChange = e => {
@@ -38,9 +43,13 @@ class EditPost extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    const { form } = this.state
+    const data = {
+      id: this.state.id,
+      title: this.state.title,
+      body: this.state.body
+    }
     const { dispatch } = this.props
-    dispatch(editPost(form))
+    dispatch(editPost(data))
     this.setState({ open: false })
   }
 

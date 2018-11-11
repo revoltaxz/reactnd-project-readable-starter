@@ -12,7 +12,7 @@ const posts = (state = initialState , action) => {
       return { ...state, postList: action.payload, filterBy: '' } ;
     case 'ADD_POST':
       return { ...state, ...state.postList.push(action.payload)}
-    case 'VOTE_UP':
+    case 'VOTE_POST':
       return { ...state, postList: state.postList.map(p => p.id === action.payload.id ? p.voteScore + 1 : action.payload.voteScore)}
     case 'DELETE_POST':
       return  {...state, postList: state.postList.filter(p => p.id !== action.payload.id)}

@@ -69,9 +69,8 @@ export const vote = ( post_id, type ) => {
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Whatever'},
       data: JSON.stringify({option: type})
     }).then( resp => {
-      dispatch({ type: 'VOTE_UP', payload: resp.data })
-    }).catch(error => console.log(error.response))
-      .then( resp => {
+      dispatch({ type: 'VOTE_POST', payload: resp.data })
+    }).then( resp => {
       if ( posts.filterBy ===  '') {
         dispatch(getAllPosts())
       }
@@ -112,6 +111,9 @@ export const editPost = post => {
     }).then( resp => {
       if ( posts.filterBy ===  '') {
         dispatch(getAllPosts())
+      }
+      if ( posts.onDetail === true ) {
+        dispatch(postDetail(post.id))
       }
       else {
         dispatch(getPostByCategory(posts.filterBy))
