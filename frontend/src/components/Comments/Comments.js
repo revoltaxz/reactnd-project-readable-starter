@@ -12,7 +12,7 @@ import Up from "@material-ui/icons/KeyboardArrowUp";
 import Down from "@material-ui/icons/KeyboardArrowDown";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import DeleteIcon from "@material-ui/core/SvgIcon/SvgIcon";
-import EditPost from "../Posts/EditPost";
+import EditPost from "../EditPost/EditPost";
 
 class Comments extends React.Component {
 

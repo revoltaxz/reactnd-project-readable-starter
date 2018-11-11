@@ -1,0 +1,15 @@
+.vote-score {
+    padding-left: 1.5rem
+}
+
+.delete-button {
+    float: right;
+}
+
+.post-title {
+    cursor: pointer;
+}
+
+.post-title:hover {
+    font-weight: bold;
+}

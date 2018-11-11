@@ -25,7 +25,6 @@ class EditPost extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
     this.setState({
       ...this.props.values
     });

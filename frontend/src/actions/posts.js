@@ -60,22 +60,23 @@ export const deletePost = (post) => {
   }
 }
 
-export const vote = ( post, type ) => {
+export const vote = ( post_id, type ) => {
   return (dispatch, getState ) => {
     const { posts } = getState()
     axios({
       method: 'POST',
-      url: `${URL}/posts/${post.id}`,
+      url: `${URL}/posts/${post_id}`,
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Whatever'},
       data: JSON.stringify({option: type})
     }).then( resp => {
       dispatch({ type: 'VOTE_UP', payload: resp.data })
-    }).then( resp => {
+    }).catch(error => console.log(error.response))
+      .then( resp => {
       if ( posts.filterBy ===  '') {
         dispatch(getAllPosts())
       }
       if ( posts.onDetail === true ) {
-        dispatch(postDetail(post.id))
+        dispatch(postDetail(post_id))
       }
       else {
         dispatch(getPostByCategory(posts.filterBy))
@@ -99,7 +100,6 @@ export const getPostByCategory = (category) => {
 
 
 export const editPost = post => {
-  console.log(post)
   return (dispatch, getState ) => {
     const { posts } = getState()
     axios({

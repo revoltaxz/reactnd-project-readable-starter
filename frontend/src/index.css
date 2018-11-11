@@ -8,3 +8,12 @@ body {
 html {
   height: 100%;
 }
+
+.fields {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.grid-content {
+  padding: 1rem
+}
