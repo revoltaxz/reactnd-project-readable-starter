@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+
 import { addPost } from '../../actions/posts'
 import Uuid from 'uuid-lib'
 import Button from '@material-ui/core/Button'
@@ -14,17 +14,16 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import Tooltip from "@material-ui/core/Tooltip/Tooltip";
 import MenuItem from '@material-ui/core/MenuItem'
-import { Field, reduxForm} from "redux-form";
 import { withStyles } from '@material-ui/core/styles'
-import { TextField } from 'redux-form-material-ui'
+import TextField from '@material-ui/core/TextField'
 
 class NewPost extends React.Component {
   state = {
-    open: false
-  }
-
-  componentDidMount() {
-    this.handleInitialize()
+    open: false,
+    title: '',
+    author: '',
+    category: '',
+    body: ''
   }
 
   handleClickOpen = () => {
@@ -35,19 +34,32 @@ class NewPost extends React.Component {
     this.setState({ open: false });
   };
 
-
-  handleInitialize () {
-    const initData = {
-      "id": Uuid.raw(),
-      "timestamp": Date.now()
+  handleSubmit = e => {
+    e.preventDefault()
+    const { title, author, category, body } = this.state
+    const { dispatch } = this.props
+    const data = {
+      id: Uuid.raw(),
+      timestamp: Date.now(),
+      title,
+      author,
+      body,
+      category
     }
-    this.props.initialize(initData)
+    dispatch(addPost(data))
+    this.setState({ open: false })
   }
 
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
 
 
   render () {
-    const { handleSubmit, pristine, reset, submitting, classes } = this.props
+    const { open, body, title, category, author } = this.state
+    const { classes } = this.props
     return (
       <React.Fragment>
         <Tooltip title='Add Post'>
@@ -55,37 +67,66 @@ class NewPost extends React.Component {
             <AddIcon/>
           </IconButton>
         </Tooltip>
-        <Dialog open={this.state.open} fullWidth onClose={this.handleClose}  aria-labelledby="form-dialog-title">
+        <Dialog open={open} fullWidth onClose={this.handleClose}  aria-labelledby="form-dialog-title">
           <DialogTitle id="new-post" className={classes.dialogTitle}>New Post</DialogTitle>
           <DialogContent>
             <DialogContentText className={classes.dialogText}>
               Insert data to create a new post
             </DialogContentText>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={this.handleSubmit}>
               <Grid container spacing={16}>
                 <Grid item xs={6}>
-                  <Field name="title" className={classes.fields} variant='outlined' component={TextField} type="text" label='Title' />
+                  <TextField name="title"
+                             onChange={this.handleChange}
+                             className="fields"
+                             variant='outlined'
+                             type='text'
+                             label='Title'
+                             value={title}
+                  />
                 </Grid>
                 <Grid item xs={6}>
-                  <Field name="author" className={classes.fields} variant='outlined' component={TextField} type="text" label='Author' />
+                  <TextField name="author"
+                             onChange={this.handleChange}
+                             className="fields"
+                             variant='outlined'
+                             type="text"
+                             label="Author"
+                             value={author}
+                  />
                 </Grid>
                 <Grid item xs={6}>
-                  <Field name="category" className={classes.fields} variant='outlined' component={TextField} select label="Category">
+                  <TextField name="category"
+                             onChange={this.handleChange}
+                             className="fields"
+                             variant='outlined'
+                             select
+                             value={category}
+                             label="Category"
+                  >
                     {categories.map(cat => (
                       <MenuItem key={cat.value} value={cat.value}>{cat.title}</MenuItem>
                     ))}
-                  </Field>
+                  </TextField>
                 </Grid>
                 <Grid item xs={12}>
-                  <Field name="body" className={classes.fields} component={TextField} variant='outlined' multiline rowsMax={4} label='Body' />
+                  <TextField name="body"
+                             onChange={this.handleChange}
+                             className="fields"
+                             variant='outlined'
+                             multiline
+                             rowsMax={4}
+                             label='Body'
+                             value={body}
+                  />
                 </Grid>
               </Grid>
               <DialogActions>
-                <Button type="button" disabled={pristine || submitting} onClick={reset}>
-                  Limpar
+                <Button type="button" onClick={this.handleClose}>
+                  Cancel
                 </Button>
-                <Button onClick={this.handleClose} variant="contained" type="submit" disabled={pristine || submitting}>
-                  Enviar
+                <Button variant="contained" type="submit">
+                  Create
                 </Button>
               </DialogActions>
             </form>
@@ -117,10 +158,4 @@ const categories = [
   {value: 'udacity', title: 'Udacity'},
 ]
 
-NewPost = reduxForm({
-  form: "newPost",
-})(NewPost);
-
-const mapDispatchToProps = dispatch => bindActionCreators({ addPost }, dispatch)
-
-export default withStyles(styles)(connect(null, mapDispatchToProps)(NewPost))
+export default withStyles(styles)(connect()(NewPost))

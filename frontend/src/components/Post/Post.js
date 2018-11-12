@@ -9,6 +9,7 @@ import { vote } from "../../actions/posts";
 import Typography from "@material-ui/core/Typography/Typography";
 import { history } from "../../utils/history";
 import { connect } from 'react-redux'
+import moment from 'moment'
 import { bindActionCreators } from 'redux'
 import "./Post.css"
 
@@ -20,7 +21,7 @@ class Post extends React.Component {
 
 
   render () {
-    const { vote, id, title, author, voteScore, category, commentCount } = this.props
+    const { vote, id, title, author, voteScore, category, commentCount, timestamp } = this.props
     return (
       <Grid item xs={12}>
         <Card>
@@ -47,7 +48,7 @@ class Post extends React.Component {
                    {title} | {category}
                 </Typography>
                 <Typography variant="caption">
-                  submitted by { author } | { commentCount } comments
+                  submitted by { author } | { commentCount } comments | { moment(timestamp).fromNow()}
                 </Typography>
               </Grid>
             </Grid>

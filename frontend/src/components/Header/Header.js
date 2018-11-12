@@ -17,6 +17,7 @@ const drawerWidth = 240;
 const styles = theme => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
+    backgroundColor: '#1c3c50'
   },
   drawerPaper: {
     position: 'absolute',
@@ -47,7 +48,7 @@ class Header extends React.Component {
       <div className={classes.root}>
         <AppBar position="absolute" className={classes.appBar}>
           <Toolbar>
-            <Typography variant="title" color="inherit">
+            <Typography variant="title" style={{ textAlign: 'center'}} color="inherit">
               Readable
             </Typography>
             <Grid container spacing={16}>
