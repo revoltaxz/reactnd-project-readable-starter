@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { history } from "../utils/history";
 
 const URL = 'http://localhost:3001'
 
@@ -48,7 +47,6 @@ export const deletePost = (post) => {
     }).then(resp => {
       if ( posts.filterBy ===  '') {
         dispatch(getAllPosts())
-        history.push('/')
       }
       if ( posts.onDetail === true ) {
         dispatch(postDetail(post.id))

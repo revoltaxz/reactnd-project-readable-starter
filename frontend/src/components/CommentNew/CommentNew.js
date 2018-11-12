@@ -32,9 +32,18 @@ class CommentNew extends React.Component {
       author,
       parentId,
     }
-
-    dispatch(addComment(data, parentId))
-    this.setState({ open: false })
+    if (author && body) {
+      dispatch(addComment(data, parentId))
+      this.setState({ open: false })
+      this.clearForm()
+    }
+  }
+  
+  clearForm = () => {
+    this.setState({
+      author: '',
+      body: ''
+    })
   }
 
 
@@ -55,7 +64,6 @@ class CommentNew extends React.Component {
 
   render () {
     const { author, body, open } = this.state
-    console.log(this.props)
     return (
       <div>
         <Button variant="contained" style={{ float: 'right '}} onClick={this.handleClickOpen}>
@@ -82,6 +90,7 @@ class CommentNew extends React.Component {
                              value={author}
                              id="author"
                              type="text"
+                             required
                              label='Your name'
                              onChange={this.handleChange}
                   />
@@ -95,6 +104,7 @@ class CommentNew extends React.Component {
                              variant='outlined'
                              multiline
                              rowsMax={4}
+                             required
                              label='Body'
                              onChange={this.handleChange}
                   />

@@ -13,6 +13,7 @@ import { vote, deletePost, postDetail } from "../../actions/posts";
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import CommentNew from "../CommentNew/CommentNew";
+import NoRoute from "../NoRoute/NoRoute";
 
 class PostDetail extends React.Component {
 
@@ -23,6 +24,9 @@ class PostDetail extends React.Component {
 
   render () {
     const { postData, vote, deletePost } = this.props
+     if ( !postData.hasOwnProperty('id') ) {
+       return <NoRoute/>
+     }
     return (
       <React.Fragment>
         {postData.hasOwnProperty(('id')) && (

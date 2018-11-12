@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { postDetail } from "./posts";
 const URL = 'http://localhost:3001'
 
 export const getComments = (id_post) => {
@@ -24,6 +25,8 @@ export const addComment = ( comment, post_id) => {
       dispatch({ type: 'ADD_COMMENT', payload: resp.data })
     }).then( resp => {
       dispatch(getComments(post_id))
+    }).then( resp => {
+      dispatch(postDetail(post_id))
     })
   }
 }
@@ -55,6 +58,8 @@ export const deleteComment = (id_comment, id_post ) => {
       dispatch({ type: 'DELETE_COMMENT', payload: resp.data })
     }).then( resp => {
       dispatch(getComments(id_post))
+    }).then( resp => {
+      dispatch(postDetail(id_post))
     })
   }
 }
