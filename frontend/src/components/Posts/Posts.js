@@ -33,7 +33,7 @@ class Posts extends React.Component {
             <React.Fragment>
             <Grid item xs={12}>
               <Typography variant="h6">Order By</Typography>
-              <select onChange={(e) => changeOrder(e.target.value)}>
+              <select onChange={(e) => changeOrder(e.target.value)} className='filterSelect'>
                 <option value="voteScore">vote</option>
                 <option value="timestamp">date</option>
               </select>

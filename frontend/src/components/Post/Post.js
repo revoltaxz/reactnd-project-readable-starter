@@ -16,7 +16,7 @@ import "./Post.css"
 class Post extends React.Component {
 
   goTo = (category, id) => {
-    history.push(`/${category}/${id}`)
+    history.push(`/category/${category}/${id}`)
   }
 
 

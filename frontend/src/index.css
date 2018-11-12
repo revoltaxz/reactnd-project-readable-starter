@@ -21,3 +21,13 @@ html {
 .vote-score {
   padding-left: 1.5rem
 }
+
+.filterSelect {
+  background: #1c3c50 !important;
+  color: #fff !important;
+  padding-right: 20px !important;
+  padding-bottom: 8px !important;
+  padding-top: 8px !important;
+  padding-left: 20px !important;
+  -webkit-appearance: none !important;
+}
