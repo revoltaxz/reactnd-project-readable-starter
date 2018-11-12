@@ -12,6 +12,7 @@ import Comments from "../Comments/Comments";
 import { vote, deletePost, postDetail } from "../../actions/posts";
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import CommentNew from "../CommentNew/CommentNew";
 
 class PostDetail extends React.Component {
 
@@ -57,7 +58,14 @@ class PostDetail extends React.Component {
             </Grid>
             <Typography variant="subtitle1" style={{ marginTop: 16, fontWeight: '100' }}>{postData.body}</Typography>
             <Divider  style={{ marginTop: 24, marginBottom: 24, width: '100%' }}/>
-            <Typography variant="h6" style={{ paddingLeft: 16 }}>Comments ({postData.commentCount})</Typography>
+            <Grid container spacing={16} className="grid-content">
+              <Grid item xs={10}>
+                <Typography variant="h6" style={{ paddingLeft: 16 }}>Comments ({postData.commentCount})</Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <CommentNew />
+              </Grid>
+            </Grid>
             <Comments />
           </Grid>
         )}

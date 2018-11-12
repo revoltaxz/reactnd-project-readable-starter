@@ -13,6 +13,23 @@ export const getComments = (id_post) => {
   }
 }
 
+export const addComment = ( comment, post_id) => {
+  return (dispatch ) => {
+    axios({
+      method: 'POST',
+      url: `${URL}/comments`,
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Whatever'},
+      data: JSON.stringify( comment )
+    }).then( resp => {
+      dispatch({ type: 'ADD_COMMENT', payload: resp.data })
+    }).then( resp => {
+      dispatch(getComments(post_id))
+    })
+  }
+}
+
+
+
 export const voteComment = (id_comment, id_post, type) => {
   return dispatch => {
     axios({

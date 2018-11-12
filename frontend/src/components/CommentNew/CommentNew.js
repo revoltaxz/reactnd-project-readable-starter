@@ -1,7 +1,4 @@
 import React from 'react'
-import Tooltip from "@material-ui/core/Tooltip/Tooltip";
-import IconButton from "@material-ui/core/IconButton/IconButton";
-import EditIcon from "@material-ui/icons/Edit";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
@@ -11,37 +8,32 @@ import TextField from "@material-ui/core/TextField/TextField";
 import DialogActions from "@material-ui/core/DialogActions/DialogActions";
 import Button from "@material-ui/core/Button/Button";
 import { connect } from 'react-redux'
-import { editComment } from "../../actions/comments";
+import { addComment } from "../../actions/comments";
+import Uuid from "uuid-lib";
+import { withRouter } from 'react-router-dom'
 
-class EditComment extends React.Component {
+class CommentNew extends React.Component {
   state = {
-    id: '',
     author: '',
     body: '',
-    parentId: '',
     open: false
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    if (  props.values.id !== state.id ) {
-      return {
-        id: props.values.id,
-        author: props.values.author,
-        body: props.values.body,
-        parentId: props.values.parentId
-      }
-    } else {
-      return { props }
-    }
   }
 
   handleSubmit = (e) => {
     e.preventDefault()
-    const { dispatch } = this.props
-    const { id, author, body, parentId } = this.state
-    const data = { id, author, body }
+    const { dispatch, match } = this.props
+    const { author, body } = this.state
 
-    dispatch(editComment(data, parentId))
+    const parentId = match.params.post_id
+    const data = {
+      id: Uuid.raw(),
+      timestamp: Date.now(),
+      body,
+      author,
+      parentId,
+    }
+
+    dispatch(addComment(data, parentId))
     this.setState({ open: false })
   }
 
@@ -63,24 +55,23 @@ class EditComment extends React.Component {
 
   render () {
     const { author, body, open } = this.state
+    console.log(this.props)
     return (
       <div>
-        <Tooltip title='Edit Post'>
-          <IconButton style={{ float: 'right '}} onClick={this.handleClickOpen}>
-            <EditIcon/>
-          </IconButton>
-        </Tooltip>
+        <Button variant="contained" style={{ float: 'right '}} onClick={this.handleClickOpen}>
+          New Comment
+        </Button>
         <Dialog open={open}
                 fullWidth
                 onClose={this.handleClose}
                 aria-labelledby="form-dialog-title"
         >
           <DialogTitle style={{ textAlign: 'center' }} id="edit-post">
-            Edit Comment
+            New Comment
           </DialogTitle>
           <DialogContent>
             <DialogContentText style={{ marginBottom: 36, textAlign: 'center'}}>
-              Insert data to Edit Comment
+              Insert data to New Comment
             </DialogContentText>
             <form onSubmit={this.handleSubmit}>
               <Grid container spacing={16}>
@@ -88,7 +79,6 @@ class EditComment extends React.Component {
                   <TextField name="author"
                              className="fields"
                              variant='outlined'
-                             disabled
                              value={author}
                              id="author"
                              type="text"
@@ -127,5 +117,4 @@ class EditComment extends React.Component {
 }
 
 
-
-export default connect()(EditComment)
+export default withRouter(connect()(CommentNew))

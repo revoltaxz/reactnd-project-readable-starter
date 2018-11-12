@@ -4,6 +4,8 @@ const initialState = {
 
 const comments = (state = initialState , action) => {
   switch(action.type) {
+    case 'ADD_POST':
+      return { ...state, ...state.commentsList.push(action.payload)}
     case 'GET_COMMENTS':
      return { ...state, commentsList: action.payload.sort((a,b) => b.voteScore - a.voteScore)}
     case 'VOTE_COMMENT':
