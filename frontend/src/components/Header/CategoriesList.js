@@ -24,7 +24,7 @@ class CategoriesList extends React.Component {
     }
     else {
       this.props.getPostByCategory(category)
-      history.push(`/category/${category}`)
+      history.push(`/${category}`)
     }
   }
 

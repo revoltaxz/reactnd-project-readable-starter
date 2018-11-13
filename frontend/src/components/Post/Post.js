@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 import Button from "@material-ui/core/Button/Button";
 import Up from "@material-ui/icons/KeyboardArrowUp";
 import Down from "@material-ui/icons/KeyboardArrowDown";
-import { vote } from "../../actions/posts";
+import { voteDown, voteUp } from "../../actions/posts";
 import Typography from "@material-ui/core/Typography/Typography";
 import { history } from "../../utils/history";
 import { connect } from 'react-redux'
@@ -16,12 +16,12 @@ import "./Post.css"
 class Post extends React.Component {
 
   goTo = (category, id) => {
-    history.push(`/category/${category}/${id}`)
+    history.push(`/${category}/${id}`)
   }
 
 
   render () {
-    const { vote, id, title, author, voteScore, category, commentCount, timestamp } = this.props
+    const { voteDown, voteUp, id, title, author, voteScore, category, commentCount, timestamp } = this.props
     return (
       <Grid item xs={12}>
         <Card>
@@ -29,13 +29,13 @@ class Post extends React.Component {
             <Grid container>
               <Grid item xs={1}>
                 <Grid container direction="column" alignItems="flex-start">
-                  <Button onClick={() => vote(id, 'upVote' )}>
+                  <Button onClick={() => voteUp(id)}>
                     <Up />
                   </Button>
                   <Typography variant="subtitle2" className="vote-score">
                     {voteScore}
                   </Typography>
-                  <Button onClick={() => vote(id, 'downVote' )}>
+                  <Button onClick={() => voteDown(id)}>
                     <Down />
                   </Button>
                 </Grid>
@@ -59,5 +59,5 @@ class Post extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ vote }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ voteDown, voteUp }, dispatch)
 export default connect(null, mapDispatchToProps)(Post)
