@@ -38,7 +38,7 @@ class CommentNew extends React.Component {
       this.clearForm()
     }
   }
-  
+
   clearForm = () => {
     this.setState({
       author: '',

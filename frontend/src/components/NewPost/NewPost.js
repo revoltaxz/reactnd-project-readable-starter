@@ -46,8 +46,11 @@ class NewPost extends React.Component {
       body,
       category
     }
-    dispatch(addPost(data))
-    this.setState({ open: false })
+    if ( title && author && category && body ) {
+      dispatch(addPost(data))
+      this.setState({ open: false })
+      this.clearForm()
+    }
   }
 
   handleChange = e => {
@@ -55,6 +58,15 @@ class NewPost extends React.Component {
       [e.target.name]: e.target.value
     });
   };
+
+  clearForm = () => {
+    this.setState({
+      title: '',
+      category: '',
+      author: '',
+      body: ''
+    })
+  }
 
 
   render () {
@@ -82,6 +94,7 @@ class NewPost extends React.Component {
                              variant='outlined'
                              type='text'
                              label='Title'
+                             required
                              value={title}
                   />
                 </Grid>
@@ -91,6 +104,7 @@ class NewPost extends React.Component {
                              className="fields"
                              variant='outlined'
                              type="text"
+                             required
                              label="Author"
                              value={author}
                   />
@@ -101,6 +115,7 @@ class NewPost extends React.Component {
                              className="fields"
                              variant='outlined'
                              select
+                             required
                              value={category}
                              label="Category"
                   >
@@ -117,6 +132,7 @@ class NewPost extends React.Component {
                              multiline
                              rowsMax={4}
                              label='Body'
+                             required
                              value={body}
                   />
                 </Grid>

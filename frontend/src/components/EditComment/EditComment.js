@@ -41,8 +41,10 @@ class EditComment extends React.Component {
     const { id, author, body, parentId } = this.state
     const data = { id, author, body }
 
-    dispatch(editComment(data, parentId))
-    this.setState({ open: false })
+    if ( author && body ) {
+      dispatch(editComment(data, parentId))
+      this.setState({ open: false })
+    }
   }
 
 
@@ -102,6 +104,7 @@ class EditComment extends React.Component {
                              value={body}
                              id="body"
                              type="text"
+                             required
                              variant='outlined'
                              multiline
                              rowsMax={4}

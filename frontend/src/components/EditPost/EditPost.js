@@ -42,15 +42,14 @@ class EditPost extends React.Component {
   };
 
   handleSubmit = (e) => {
+    const { id, title, body } = this.state
     e.preventDefault()
-    const data = {
-      id: this.state.id,
-      title: this.state.title,
-      body: this.state.body
-    }
+    const data = { id, title, body }
     const { dispatch } = this.props
-    dispatch(editPost(data))
-    this.setState({ open: false })
+    if ( title &&  body ) {
+      dispatch(editPost(data))
+      this.setState({ open: false })
+    }
   }
 
   handleClickOpen = () => {
@@ -98,6 +97,7 @@ class EditPost extends React.Component {
                              value={title}
                              id="title"
                              type="text"
+                             required
                              label='Title'
                              onChange={this.handleChange}
                   />
@@ -109,6 +109,7 @@ class EditPost extends React.Component {
                              id="body"
                              type="text"
                              variant='outlined'
+                             required
                              multiline
                              rowsMax={4}
                              label='Body'
