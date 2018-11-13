@@ -33,15 +33,30 @@ export const addComment = ( comment, post_id) => {
 
 
 
-export const voteComment = (id_comment, id_post, type) => {
+export const voteCommentUp = (id_comment, id_post) => {
   return dispatch => {
     axios({
       method: 'POST',
       url: `${URL}/comments/${id_comment}`,
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Whatever'},
-      data: JSON.stringify({option: type})
+      data: JSON.stringify({option: 'upVote'})
     }).then( resp => {
-      dispatch({ type: 'VOTE_COMMENT', payload: resp.data })
+      dispatch({ type: 'VOTE_COMMENT_UP', payload: resp.data })
+    }).then(resp => {
+      dispatch(getComments(id_post))
+    })
+  }
+}
+
+export const voteCommentDown = (id_comment, id_post) => {
+  return dispatch => {
+    axios({
+      method: 'POST',
+      url: `${URL}/comments/${id_comment}`,
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Whatever'},
+      data: JSON.stringify({option: 'downVote'})
+    }).then( resp => {
+      dispatch({ type: 'VOTE_COMMENT_DOWN', payload: resp.data })
     }).then(resp => {
       dispatch(getComments(id_post))
     })

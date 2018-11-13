@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button/Button";
 import Up from "@material-ui/icons/KeyboardArrowUp";
 import Down from "@material-ui/icons/KeyboardArrowDown";
 import Typography from "@material-ui/core/Typography/Typography";
-import { voteComment, deleteComment } from "../../actions/comments";
+import { voteCommentDown, voteCommentUp, deleteComment } from "../../actions/comments";
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -15,7 +15,7 @@ import EditComment from "../EditComment/EditComment";
 
 class Comment extends React.Component {
   render () {
-    const { voteScore, author, timestamp, body, voteComment, id, parentId, deleteComment } = this.props
+    const { voteScore, author, timestamp, body, voteCommentUp, voteCommentDown, id, parentId, deleteComment } = this.props
     return (
       <Grid item xs={12}>
         <Card>
@@ -23,13 +23,13 @@ class Comment extends React.Component {
             <Grid container>
               <Grid item xs={1}>
                 <Grid container direction="column" alignItems="flex-start">
-                  <Button onClick={() => voteComment(id, parentId, 'upVote')}>
+                  <Button onClick={() => voteCommentUp(id, parentId)}>
                     <Up />
                   </Button>
                   <Typography variant="subtitle2" className="vote-score">
                     {voteScore}
                   </Typography>
-                  <Button onClick={() => voteComment(id, parentId, 'downVote')}>
+                  <Button onClick={() => voteCommentDown(id, parentId)}>
                     <Down />
                   </Button>
                 </Grid>
@@ -61,6 +61,6 @@ class Comment extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ voteComment, deleteComment }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ voteCommentUp, voteCommentDown, deleteComment }, dispatch)
 
 export default connect(null, mapDispatchToProps)(Comment)

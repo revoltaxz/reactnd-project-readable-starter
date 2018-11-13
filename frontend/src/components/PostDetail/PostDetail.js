@@ -9,7 +9,7 @@ import EditPost from "../EditPost/EditPost";
 import Divider from "@material-ui/core/Divider/Divider";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Comments from "../Comments/Comments";
-import { vote, deletePost, postDetail } from "../../actions/posts";
+import { voteUp, voteDown, deletePost, postDetail } from "../../actions/posts";
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import CommentNew from "../CommentNew/CommentNew";
@@ -23,7 +23,7 @@ class PostDetail extends React.Component {
   }
 
   render () {
-    const { postData, vote, deletePost } = this.props
+    const { postData, voteDown, voteUp, deletePost } = this.props
      if ( !postData.hasOwnProperty('id') ) {
        return <NoRoute/>
      }
@@ -35,9 +35,9 @@ class PostDetail extends React.Component {
               <Grid container>
                 <Grid item xs={1}>
                   <Grid container direction="column" alignItems="flex-start">
-                    <Button onClick={() => vote(postData.id, 'upVote' )}><Up /></Button>
+                    <Button onClick={() => voteUp(postData.id)}><Up /></Button>
                     <Typography variant="subtitle2" className="vote-score">{postData.voteScore}</Typography>
-                    <Button onClick={() => vote(postData.id, 'downVote' )}><Down /></Button>
+                    <Button onClick={() => voteDown(postData.id)}><Down /></Button>
                   </Grid>
                 </Grid>
                 <Grid item xs={9} style={{ marginTop: 12}}>
@@ -79,6 +79,6 @@ class PostDetail extends React.Component {
 }
 
 const mapStateToProps = state => ({ postData: state.posts.postInfo })
-const mapDispatchToProps = dispatch => bindActionCreators({ vote, deletePost, postDetail }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ voteUp, voteDown, deletePost, postDetail }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostDetail)
